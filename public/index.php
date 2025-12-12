@@ -14,6 +14,17 @@
  * 7. CLIENTE → Renderiza la respuesta en el navegador
  */
 
+// CORS Configuration
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+
+// Handle preflight requests
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    header("HTTP/1.1 200 OK");
+    exit();
+}
+
 // Configuración de rutas base
 define('BASE_PATH', dirname(__DIR__));
 define('PUBLIC_PATH', __DIR__);
@@ -25,7 +36,7 @@ spl_autoload_register(function ($class) {
         BASE_PATH . '/controllers/' . $class . '.php',
         BASE_PATH . '/config/' . $class . '.php'
     ];
-    
+
     foreach ($paths as $path) {
         if (file_exists($path)) {
             require_once $path;
@@ -60,19 +71,19 @@ if (!class_exists($controllerClass)) {
 // SERVIDOR: Crea instancia del controlador y ejecuta la acción
 try {
     $controller = new $controllerClass();
-    
+
     // SERVIDOR: Valida que el método existe
     if (!method_exists($controller, $action)) {
         die('Acción no encontrada: ' . $action);
     }
-    
+
     // SERVIDOR: Ejecuta la acción del controlador
     // La acción puede:
     // - Acceder a modelos (base de datos)
     // - Generar vistas (HTML para el CLIENTE)
     // - Redirigir al CLIENTE a otra página
     $controller->$action();
-    
+
 } catch (Exception $e) {
     // SERVIDOR: Maneja errores y envía respuesta al CLIENTE
     die('Error del servidor: ' . $e->getMessage());

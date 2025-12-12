@@ -14,6 +14,7 @@ require_once __DIR__ . '/../layouts/header.php';
 <!-- CLIENTE: Botón que envía petición GET al SERVIDOR -->
 <div class="actions">
     <a href="/index.php?controller=member&action=create" class="btn btn-primary">➕ Nuevo Miembro</a>
+    <a href="/index.php?controller=member&action=access" class="btn btn-success">🔑 Registrar Acceso</a>
 </div>
 
 <!-- CLIENTE: Tabla que muestra datos recibidos del SERVIDOR -->
@@ -26,13 +27,15 @@ require_once __DIR__ . '/../layouts/header.php';
             <th>Teléfono</th>
             <th>Fecha Inscripción</th>
             <th>Estado</th>
+            <th>Entrada</th>
+            <th>Entradas Totales</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         <?php if (empty($members)): ?>
             <tr>
-                <td colspan="7" class="text-center">No hay miembros registrados</td>
+                <td colspan="9" class="text-center">No hay miembros registrados</td>
             </tr>
         <?php else: ?>
             <?php foreach ($members as $member): ?>
@@ -47,12 +50,24 @@ require_once __DIR__ . '/../layouts/header.php';
                             <?php echo htmlspecialchars($member['status']); ?>
                         </span>
                     </td>
+                    <td>
+                        <?php
+                        $today = date('Y-m-d');
+                        $isExpired = $member['expiration_date'] && $member['expiration_date'] < $today;
+                        $isAllowed = $member['status'] === 'active' && $member['entry_available'] && !$isExpired;
+                        ?>
+                        <span class="badge badge-<?php echo $isAllowed ? 'success' : 'danger'; ?>">
+                            <?php echo $isAllowed ? 'Permitida' : 'Negada'; ?>
+                        </span>
+                    </td>
+                    <td class="text-center"><?php echo (int) $member['total_entries']; ?></td>
                     <td class="actions-cell">
                         <!-- CLIENTE: Enlaces que envían peticiones al SERVIDOR -->
-                        <a href="/index.php?controller=member&action=edit&id=<?php echo $member['id']; ?>" class="btn btn-sm btn-secondary">Editar</a>
-                        <a href="/index.php?controller=member&action=delete&id=<?php echo $member['id']; ?>" 
-                           class="btn btn-sm btn-danger" 
-                           onclick="return confirm('¿Está seguro de eliminar este miembro?')">Eliminar</a>
+                        <a href="/index.php?controller=member&action=edit&id=<?php echo $member['id']; ?>"
+                            class="btn btn-sm btn-secondary">Editar</a>
+                        <a href="/index.php?controller=member&action=delete&id=<?php echo $member['id']; ?>"
+                            class="btn btn-sm btn-danger"
+                            onclick="return confirm('¿Está seguro de eliminar este miembro?')">Eliminar</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -61,4 +76,3 @@ require_once __DIR__ . '/../layouts/header.php';
 </table>
 
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>
-

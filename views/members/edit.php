@@ -49,6 +49,16 @@ require_once __DIR__ . '/../layouts/header.php';
             <span class="error-message"><?php echo htmlspecialchars($errors['registration_date']); ?></span>
         <?php endif; ?>
     </div>
+
+    <div class="form-group">
+        <label for="expiration_date">Fecha de Caducidad</label>
+        <input type="date" id="expiration_date" name="expiration_date" 
+               value="<?php echo htmlspecialchars($member['expiration_date'] ?? ''); ?>"
+               class="<?php echo isset($errors['expiration_date']) ? 'error' : ''; ?>">
+        <?php if (isset($errors['expiration_date'])): ?>
+            <span class="error-message"><?php echo htmlspecialchars($errors['expiration_date']); ?></span>
+        <?php endif; ?>
+    </div>
     
     <div class="form-group">
         <label for="status">Estado *</label>
@@ -57,6 +67,14 @@ require_once __DIR__ . '/../layouts/header.php';
             <option value="inactive" <?php echo $member['status'] === 'inactive' ? 'selected' : ''; ?>>Inactivo</option>
             <option value="suspended" <?php echo $member['status'] === 'suspended' ? 'selected' : ''; ?>>Suspendido</option>
         </select>
+    </div>
+    
+    <div class="form-group">
+        <label for="entry_available">
+            <input type="checkbox" id="entry_available" name="entry_available" value="1" 
+                <?php echo ($member['entry_available']) ? 'checked' : ''; ?>>
+            Entrada Permitida
+        </label>
     </div>
     
     <div class="form-actions">

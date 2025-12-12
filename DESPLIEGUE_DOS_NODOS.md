@@ -131,7 +131,7 @@ server {
    ```apache
    <Directory "C:/xampp/htdocs/gimnasio-cliente">
        Options Indexes FollowSymLinks
-       AllowOverride All
+       AllowOverride All    
        Require all granted
    </Directory>
    ```

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Gestión de Gimnasio</title>
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
+
 <body>
     <!-- CLIENTE: Esta es la interfaz que el usuario ve en su navegador -->
     <header class="header">
@@ -18,7 +20,7 @@
             </nav>
         </div>
     </header>
-    
+
     <main class="main container">
         <!-- Mensajes de éxito/error del SERVIDOR al CLIENTE -->
         <?php if (isset($_GET['success'])): ?>
@@ -33,7 +35,7 @@
                 ?>
             </div>
         <?php endif; ?>
-        
+
         <?php if (isset($_GET['error'])): ?>
             <div class="alert alert-error">
                 <?php
@@ -41,8 +43,7 @@
                     'not_found' => 'Registro no encontrado',
                     'delete_failed' => 'Error al eliminar el registro'
                 ];
-                echo $messages[$_GET['error']] ?? 'Ha ocurrido un error';
+                 echo $messages[$_GET['error']] ?? 'Ha ocurrido un error - Exceso de pago';
                 ?>
             </div>
         <?php endif; ?>
-

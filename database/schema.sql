@@ -13,7 +13,10 @@ CREATE TABLE IF NOT EXISTS members (
     phone VARCHAR(20),
     registration_date DATE NOT NULL DEFAULT CURRENT_DATE,
     status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'inactive', 'suspended')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    expiration_date DATE,
+    entry_available BOOLEAN DEFAULT TRUE,
+    total_entries INTEGER DEFAULT 0
 );
 
 -- Tabla de Clases
